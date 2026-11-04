@@ -1,0 +1,35 @@
+@import 'tailwindcss';
+
+/*
+ * Design tokens from the approved direction (Project brief §2): cream background, deep agarwood red.
+ * Use them through Tailwind classes: bg-surface, text-ink, border-line, bg-brand, font-serif …
+ * Values to re-check against the Figma file once it can be read.
+ */
+@theme {
+  --color-surface: #f7f2ea; /* main background */
+  --color-surface-muted: #eee7de; /* secondary background */
+  --color-brand: #811f1c; /* brand red */
+  --color-brand-dark: #651714; /* hover / pressed */
+  --color-ink: #2f211c; /* main text */
+  --color-ink-muted: #6b5c53; /* secondary text */
+  --color-line: #d3c6b9; /* borders */
+  --color-on-brand: #fff8ee; /* text on dark/brand background */
+
+  --font-serif: 'Noto Serif', Georgia, serif; /* brand name, headings */
+  --font-sans: 'Be Vietnam Pro', system-ui, sans-serif; /* body, navigation, prices, controls */
+}
+
+@layer base {
+  html {
+    background-color: var(--color-surface);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Visible keyboard focus everywhere (accessibility). */
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+  }
+}
