@@ -2,7 +2,8 @@
 // - Always sends cookies (customer and admin sessions are HttpOnly cookies set by the server).
 // - Returns `data` from { data } responses; throws ApiError for { error } responses.
 
-const BASE_URL = (import.meta.env.VITE_API_URL ?? '').replace(/\/$/, '');
+// `?.` keeps this module usable outside Vite (tests, server-side rendering).
+const BASE_URL = (import.meta.env?.VITE_API_URL ?? '').replace(/\/$/, '');
 
 export interface ApiErrorDetail {
   field?: string;

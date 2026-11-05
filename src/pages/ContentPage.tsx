@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import { api, ApiError } from '../lib/api';
+import { queryKeys } from '../lib/queries';
 import { NotFoundPage } from './NotFoundPage';
 
 interface PageContent {
@@ -13,7 +14,7 @@ interface PageContent {
 /** Policy / info pages managed in the admin (/api/pages/:slug). Content is plain text with blank lines between paragraphs. */
 export function ContentPage() {
   const { slug = '' } = useParams();
-  const { data, isPending, error } = useQuery({ queryKey: ['page', slug], queryFn: () => api<PageContent>(`/api/pages/${encodeURIComponent(slug)}`) });
+  const { data, isPending, error } = useQuery({ queryKey: queryKeys.page(slug), queryFn: () => api<PageContent>(`/api/pages/${encodeURIComponent(slug)}`) });
 
   if (error instanceof ApiError && error.status === 404) return <NotFoundPage />;
   if (error) return <p className="mx-auto max-w-3xl px-4 py-16 text-center text-ink-muted">{error.message}</p>;
