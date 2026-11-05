@@ -48,7 +48,7 @@ export function ProductListPage() {
     <Container className="pt-6 md:pt-8">
       <nav aria-label="Đường dẫn" className="text-sm text-ink-muted">
         <ol className="flex flex-wrap gap-1.5">
-          <li><Link to="/" className="hover:text-brand">Trang chủ</Link></li>
+          <li><Link to="/" className="-my-3 inline-block py-3 hover:text-brand md:my-0 md:py-0">Trang chủ</Link></li>
           {parent && parent.slug !== category && (
             <li>/ <Link to={`/san-pham?category=${parent.slug}`} className="hover:text-brand">{parent.name}</Link></li>
           )}

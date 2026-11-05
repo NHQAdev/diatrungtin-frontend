@@ -50,10 +50,10 @@ export function SiteFooter() {
           {COLUMNS.map((column) => (
             <div key={column.title}>
               <h2 className="text-base font-semibold md:text-[22px]">{column.title}</h2>
-              <ul className="mt-4 space-y-2.5 text-sm opacity-90 md:mt-5 md:space-y-3 md:text-xl">
+              <ul className="mt-2 text-sm opacity-90 md:mt-5 md:space-y-3 md:text-xl">
                 {column.links.map((link) => (
                   <li key={link.label}>
-                    <Link to={link.to} className="hover:underline">{link.label}</Link>
+                    <Link to={link.to} className="inline-block py-2 hover:underline md:py-0">{link.label}</Link>
                   </li>
                 ))}
               </ul>
@@ -61,11 +61,11 @@ export function SiteFooter() {
           ))}
           <div>
             <h2 className="text-base font-semibold md:text-[22px]">Kết nối với chúng tôi</h2>
-            <ul className="mt-4 space-y-2.5 text-sm opacity-90 md:mt-5 md:space-y-3 md:text-xl">
+            <ul className="mt-2 text-sm opacity-90 md:mt-5 md:space-y-3 md:text-xl">
               {social.map((item) => (
                 <li key={item.label}>
                   {isUrl(item.url) ? (
-                    <a href={item.url} target="_blank" rel="noopener noreferrer" className="hover:underline">{item.label}</a>
+                    <a href={item.url} target="_blank" rel="noopener noreferrer" className="inline-block py-2 hover:underline md:py-0">{item.label}</a>
                   ) : (
                     <span>{item.label} [Cập nhật]</span>
                   )}

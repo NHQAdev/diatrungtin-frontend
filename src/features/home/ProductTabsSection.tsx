@@ -52,7 +52,7 @@ export function ProductTabsSection({ title, allLink, tabs, feature, featureSide 
       <SectionTitle id={`${id}-title`} action={<ArrowLink to={allLink}>Xem toàn bộ</ArrowLink>}>
         {title}
       </SectionTitle>
-      <div role="tablist" aria-label={title} className="mb-5 flex gap-6 text-[15px] md:mb-8 md:gap-8 md:text-xl">
+      <div role="tablist" aria-label={title} className="mb-3 flex gap-6 text-[15px] md:mb-8 md:gap-8 md:text-xl">
         {tabs.map((item, index) => (
           <button
             key={item.categorySlug}
@@ -62,7 +62,7 @@ export function ProductTabsSection({ title, allLink, tabs, feature, featureSide 
             aria-selected={index === active}
             aria-controls={`${id}-panel`}
             onClick={() => setActive(index)}
-            className={`py-1 font-medium ${index === active ? 'text-brand underline decoration-1 underline-offset-[7px]' : 'text-ink hover:text-brand'}`}
+            className={`py-2.5 font-medium md:py-1 ${index === active ? 'text-brand underline decoration-1 underline-offset-[7px]' : 'text-ink hover:text-brand'}`}
           >
             {item.label}
           </button>

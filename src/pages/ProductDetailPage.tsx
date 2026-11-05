@@ -58,10 +58,10 @@ function ProductView({ product }: { product: ProductDetail }) {
       <Container className="pt-5 md:pt-7">
         <nav aria-label="Đường dẫn" className="text-sm text-ink md:text-xl">
           <ol className="flex flex-wrap gap-1.5 md:gap-2.5">
-            <li><Link to="/" className="hover:text-brand">Trang chủ</Link></li>
+            <li><Link to="/" className="-my-3 inline-block py-3 hover:text-brand md:my-0 md:py-0">Trang chủ</Link></li>
             {product.breadcrumb.map((crumb) => (
               <li key={crumb.slug}>
-                / <Link to={`/san-pham?category=${crumb.slug}`} className="hover:text-brand">{crumb.name}</Link>
+                / <Link to={`/san-pham?category=${crumb.slug}`} className="-my-3 inline-block py-3 hover:text-brand md:my-0 md:py-0">{crumb.name}</Link>
               </li>
             ))}
             <li aria-current="page" className="sr-only md:not-sr-only">/ {product.name}</li>
