@@ -1,6 +1,6 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
-import type { CategoryNode, Collection, ProductCard, ProductDetail, StoreInfo } from '../types/api';
-import { api, apiPaged, toQuery } from './api';
+import type { CategoryNode, Collection, Customer, ProductCard, ProductDetail, StoreInfo } from '../types/api';
+import { api, ApiError, apiPaged, toQuery } from './api';
 
 // Query keys live here so the same data is shared between pages (and can be pre-filled in tests).
 
@@ -22,7 +22,27 @@ export const queryKeys = {
   products: (params: ProductListParams) => ['products', params] as const,
   product: (slug: string) => ['product', slug] as const,
   page: (slug: string) => ['page', slug] as const,
+  me: ['me'] as const,
 };
+
+/**
+ * The logged-in customer, or null for guests (401 is a normal answer here, not an error).
+ * Login/logout must invalidate `queryKeys.me`.
+ */
+export function useCurrentCustomer() {
+  return useQuery({
+    queryKey: queryKeys.me,
+    queryFn: async () => {
+      try {
+        return (await api<{ customer: Customer }>('/api/auth/me')).customer;
+      } catch (error) {
+        if (error instanceof ApiError && error.status === 401) return null;
+        throw error;
+      }
+    },
+    staleTime: 5 * 60_000,
+  });
+}
 
 /** Store info for header/footer. Null fields are shown as "[Cập nhật]". */
 export function useStoreInfo() {

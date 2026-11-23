@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
+import { loginUrl } from '../../features/auth/redirect';
 import { useCart } from '../../features/cart/cart-store';
-import { useCategories } from '../../lib/queries';
+import { useCategories, useCurrentCustomer } from '../../lib/queries';
 import type { CategoryNode } from '../../types/api';
-import { BagIcon, ChevronDownIcon, CloseIcon, MenuIcon } from '../ui/icons';
+import { BagIcon, ChevronDownIcon, CloseIcon, MenuIcon, UserIcon } from '../ui/icons';
 import { Brand } from './Brand';
 import { MAIN_NAV } from './nav';
 import { SearchBox } from './SearchBox';
@@ -17,11 +18,20 @@ export function SiteHeader() {
   const { data: categories } = useCategories();
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
+  const { data: customer } = useCurrentCustomer();
+  // Guests go to the login page; logged-in customers to their account (shown by first name).
+  const account = customer
+    ? { to: '/tai-khoan', label: customer.fullName.trim().split(/\s+/).pop() || 'Tài khoản' }
+    : { to: loginUrl(location.pathname + location.search), label: 'Đăng nhập' };
 
-  // Close the mobile menu after navigating.
-  useEffect(() => {
+  // Close the mobile menu after navigating. Done while rendering (React's "adjust state when a
+  // prop changes" pattern) instead of in an effect, so there is no extra render with the menu open.
+  const locationKey = location.pathname + location.search;
+  const [menuLocation, setMenuLocation] = useState(locationKey);
+  if (menuLocation !== locationKey) {
+    setMenuLocation(locationKey);
     setMenuOpen(false);
-  }, [location.pathname, location.search]);
+  }
 
   return (
     <header className="bg-surface">
@@ -30,7 +40,11 @@ export function SiteHeader() {
         <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-6 pt-7">
           <SearchBox id="search-desktop" className="w-full max-w-[318px]" />
           <Brand />
-          <div className="flex justify-end">
+          <div className="flex items-center justify-end gap-6">
+            <Link to={account.to} className="inline-flex items-center gap-2.5 rounded-md px-2 py-2 text-xl text-ink hover:text-brand">
+              <UserIcon size={26} className="text-brand" />
+              <span className="max-w-[180px] truncate">{account.label}</span>
+            </Link>
             <Link to="/gio-hang" className="inline-flex items-center gap-3 rounded-md px-2 py-2 text-xl text-ink hover:text-brand">
               <BagIcon size={26} className="text-brand" />
               <span>Giỏ hàng ({count})</span>
@@ -68,7 +82,7 @@ export function SiteHeader() {
 
       {/* ---------- Mobile ---------- */}
       <div className="px-4 pb-3 pt-3 md:hidden">
-        <div className="grid grid-cols-[44px_1fr_44px] items-center">
+        <div className="grid grid-cols-[44px_1fr_44px] items-center min-[360px]:grid-cols-[88px_1fr_88px]">
           <button
             type="button"
             className="grid h-11 w-11 place-items-center text-brand"
@@ -80,12 +94,18 @@ export function SiteHeader() {
             {menuOpen ? <CloseIcon size={24} /> : <MenuIcon size={24} />}
           </button>
           <Brand />
+          <div className="flex justify-end">
+          {/* Very narrow phones (<360px): no room beside the brand; the account link stays in the menu. */}
+          <Link to={account.to} className="hidden h-11 w-11 place-items-center text-brand min-[360px]:grid" aria-label={account.label}>
+            <UserIcon size={24} />
+          </Link>
           <Link to="/gio-hang" className="relative grid h-11 w-11 place-items-center text-brand" aria-label={`Giỏ hàng, ${count} sản phẩm`}>
             <BagIcon size={24} />
             {count > 0 && (
               <span className="absolute right-0.5 top-0.5 grid h-5 min-w-5 place-items-center rounded-full bg-brand px-1 text-[11px] font-semibold text-on-brand">{count}</span>
             )}
           </Link>
+          </div>
         </div>
         <SearchBox id="search-mobile" className="mt-3" />
         {menuOpen && (
@@ -114,6 +134,16 @@ export function SiteHeader() {
               })}
               <li className="py-1">
                 <Link to="/tra-cuu-don-hang" className="block py-3 text-base text-ink">Tra cứu đơn hàng</Link>
+              </li>
+              <li className="py-1">
+                {customer ? (
+                  <Link to="/tai-khoan" className="block py-3 text-base text-ink">Tài khoản của tôi</Link>
+                ) : (
+                  <span className="flex gap-6 text-base">
+                    <Link to={account.to} className="py-3 font-medium text-brand">Đăng nhập</Link>
+                    <Link to="/dang-ky" className="py-3 text-ink">Đăng ký</Link>
+                  </span>
+                )}
               </li>
             </ul>
           </nav>

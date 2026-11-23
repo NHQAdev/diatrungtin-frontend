@@ -153,6 +153,7 @@ export interface Customer {
   taxCode: string | null;
   invoiceAddress: string | null;
   priceTier: PriceTier;
+  emailVerified: boolean;
 }
 
 export interface StoreInfo {

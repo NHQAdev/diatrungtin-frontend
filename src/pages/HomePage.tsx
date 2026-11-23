@@ -52,7 +52,7 @@ export function HomePage() {
       <section className="bg-surface md:mt-6" aria-labelledby="hero-title">
         <div className="grid overflow-hidden md:h-[min(895px,62vw)] md:grid-cols-[64fr_36fr] md:grid-rows-[100%]">
           <div className="relative aspect-[10/9] md:aspect-auto">
-            <img src="/images/hero-model.jpg" alt="Người đeo vòng tay và vòng cổ trầm hương" className="absolute inset-0 h-full w-full bg-surface-muted object-cover" />
+            <img src="/images/hero-model.webp" alt="Người đeo vòng tay và vòng cổ trầm hương" className="absolute inset-0 h-full w-full bg-surface-muted object-cover" />
           </div>
           <div className="flex min-h-0 flex-col overflow-hidden bg-brand text-on-brand">
             <div className="px-6 pb-6 pt-8 md:pb-10 md:pl-14 md:pr-6 md:pt-[72px]">

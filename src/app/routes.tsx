@@ -1,12 +1,17 @@
 import type { RouteObject } from 'react-router-dom';
+import { AuthLayout } from '../components/layout/AuthLayout';
 import { SiteLayout } from '../components/layout/SiteLayout';
+import { AccountPage } from '../pages/AccountPage';
 import { ContentPage } from '../pages/ContentPage';
 import { ErrorPage } from '../pages/ErrorPage';
 import { HomePage } from '../pages/HomePage';
+import { LoginPage } from '../pages/LoginPage';
 import { NotFoundPage } from '../pages/NotFoundPage';
 import { PendingPage } from '../pages/PendingPage';
 import { ProductDetailPage } from '../pages/ProductDetailPage';
 import { ProductListPage } from '../pages/ProductListPage';
+import { RegisterPage } from '../pages/RegisterPage';
+import { VerifyEmailPage } from '../pages/VerifyEmailPage';
 
 // Vietnamese URLs. Paths used in backend emails must not change:
 //   /don-hang/:code?token=…   (order confirmation)
@@ -23,13 +28,23 @@ export const routes: RouteObject[] = [
       { path: '/thanh-toan', element: <PendingPage title="Thanh toán" /> },
       { path: '/don-hang/:code', element: <PendingPage title="Đơn hàng" /> },
       { path: '/tra-cuu-don-hang', element: <PendingPage title="Tra cứu đơn hàng" /> },
-      { path: '/dang-nhap', element: <PendingPage title="Đăng nhập" /> },
-      { path: '/dang-ky', element: <PendingPage title="Đăng ký" /> },
       { path: '/quen-mat-khau', element: <PendingPage title="Quên mật khẩu" /> },
       { path: '/dat-lai-mat-khau', element: <PendingPage title="Đặt lại mật khẩu" /> },
-      { path: '/tai-khoan', element: <PendingPage title="Tài khoản" /> },
       { path: '/trang/:slug', element: <ContentPage /> },
       { path: '*', element: <NotFoundPage /> },
+    ],
+  },
+  {
+    // Login, registration, email verification and the account area use the minimal layout from the design.
+    element: <AuthLayout />,
+    errorElement: <ErrorPage />,
+    children: [
+      { path: '/dang-nhap', element: <LoginPage /> },
+      { path: '/dang-ky', element: <RegisterPage /> },
+      { path: '/xac-minh-email', element: <VerifyEmailPage /> },
+      { path: '/tai-khoan', element: <AccountPage section="profile" /> },
+      { path: '/tai-khoan/don-hang', element: <AccountPage section="orders" /> },
+      { path: '/tai-khoan/doi-mat-khau', element: <AccountPage section="password" /> },
     ],
   },
   // The admin area (/admin/*) gets its own layout later.
