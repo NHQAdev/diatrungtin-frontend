@@ -104,3 +104,18 @@ export const BuildingIcon = (p: IconProps) => (
     <path d="M9 7h1M14 7h1M9 11h1M14 11h1M9 15h1M14 15h1" />
   </Icon>
 );
+export const TrashIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M4 7h16" />
+    <path d="M9 7V4h6v3" />
+    <path d="M6 7l1 13h10l1-13" />
+    <path d="M10 11v6M14 11v6" />
+  </Icon>
+);
+export const InfoIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <circle cx="12" cy="12" r="9" />
+    <path d="M12 11v5" />
+    <path d="M12 8h.01" />
+  </Icon>
+);

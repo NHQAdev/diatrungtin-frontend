@@ -2,6 +2,7 @@ import type { RouteObject } from 'react-router-dom';
 import { AuthLayout } from '../components/layout/AuthLayout';
 import { SiteLayout } from '../components/layout/SiteLayout';
 import { AccountPage } from '../pages/AccountPage';
+import { CartPage } from '../pages/CartPage';
 import { ContentPage } from '../pages/ContentPage';
 import { ErrorPage } from '../pages/ErrorPage';
 import { HomePage } from '../pages/HomePage';
@@ -24,7 +25,7 @@ export const routes: RouteObject[] = [
       { path: '/', element: <HomePage /> },
       { path: '/san-pham', element: <ProductListPage /> },
       { path: '/san-pham/:slug', element: <ProductDetailPage /> },
-      { path: '/gio-hang', element: <PendingPage title="Giỏ hàng" /> },
+      { path: '/gio-hang', element: <CartPage /> },
       { path: '/thanh-toan', element: <PendingPage title="Thanh toán" /> },
       { path: '/don-hang/:code', element: <PendingPage title="Đơn hàng" /> },
       { path: '/tra-cuu-don-hang', element: <PendingPage title="Tra cứu đơn hàng" /> },
