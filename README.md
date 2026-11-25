@@ -1,41 +1,73 @@
-# diatrungtin-frontend
+# Địa Trung Tín — E-commerce Storefront
 
-Website bán hàng và trang quản trị cho Trầm Hương Địa Trung Tín. React 19 + TypeScript + Vite + Tailwind CSS 4, React Router, TanStack Query.
+Customer-facing website for **Trầm Hương Địa Trung Tín**, an online store selling agarwood (trầm hương) jewelry and incense. Built from a Figma design and connected to a real REST API.
 
-Backend: `C:\repos\diatrungtin-backend` (API: `docs/API.md` bên backend).
+Backend: [diatrungtin-backend](https://github.com/NHQAdev/diatrungtin-backend)
 
-## Chạy local
+> 🚧 **Status: in development.** Browsing, product details, sign-up/login and the account area are working against the real API. Cart and checkout are being built; the admin area has not started. See [Progress](#progress).
+
+## Tech stack
+
+- **React 19** + **TypeScript** (strict) + **Vite**
+- **Tailwind CSS 4** with design tokens (colors, fonts) taken from Figma
+- **React Router 7** with Vietnamese URLs, **TanStack Query** for server state, **Zod**
+- ESLint, Node test runner for unit tests
+
+## Progress
+
+### ✅ Done
+- **Layout**: responsive header and footer from Figma; desktop search, cart and category dropdown menu; mobile drawer menu.
+- **Home page**: hero, "What are you looking for?" section, tabbed product blocks, banners, care guide section.
+- **Product list** (`/san-pham`): filter by category, collection and keyword; sorting and pagination; loading, empty and error states.
+- **Product detail** (`/san-pham/:slug`): image gallery with zoom, variant selection (out-of-stock options disabled, price and stock update per variant), "extra beads" option for bracelets, quantity, Add to cart / Buy now, specs table, accordions, related products.
+- **Content pages** (`/trang/:slug`) for store policies.
+- **Auth**: login, individual and business registration, **email OTP verification**, redirect back after login.
+- **Account area**: profile, order history, change password, business account upgrade and approval status.
+- **Tests** for variant selection, masking and redirect logic.
+
+### 🔄 In progress
+- Cart page and checkout steps (prices always come from the server-side quote API).
+
+### 🔜 Next
+- Checkout, order confirmation and order lookup
+- Forgot / reset password pages
+- Admin area (`/admin`): products, orders, customers, store settings
+- Replace temporary low-resolution images with original photos
+- Deployment
+
+## Getting started
 
 ```bash
 npm install
 npm run dev        # http://localhost:5173
 ```
 
-Cần backend chạy ở `http://localhost:4000` (`npm run dev` bên backend). Vite chuyển tiếp `/api` và `/uploads` sang backend, nên không cần cấu hình CORS khi dev. Backend khác cổng: đặt `VITE_DEV_BACKEND=http://localhost:xxxx`.
+Requires the backend running at `http://localhost:4000`. Vite proxies `/api` and `/uploads` to the backend, so no CORS setup is needed in development. For a different backend port, set `VITE_DEV_BACKEND=http://localhost:xxxx`.
 
-## Kiểm tra
+## Checks
 
 ```bash
 npm run typecheck
 npm run lint
+npm test
 npm run build
 ```
 
-## Cấu trúc
+## Project structure
 
 ```
 src/
-  app/            router
-  components/     thành phần giao diện dùng chung (layout, nút, ô nhập…)
-  features/       logic theo nghiệp vụ (cart…)
-  lib/            api client, định dạng tiền/ngày, query dùng chung
-  pages/          màn hình theo route
-  types/          kiểu dữ liệu trả về từ API
-  index.css       design token (màu, font)
+  app/            router and route table
+  components/     shared UI (layout, buttons, inputs, product card…)
+  features/       business logic by feature (auth, account, cart, product…)
+  lib/            API client, money/date formatting, shared queries
+  pages/          one screen per route
+  types/          API response types
+  index.css       design tokens (colors, fonts)
 ```
 
-## Quy ước
+## Conventions
 
-- URL tiếng Việt không dấu: `/san-pham/:slug`, `/gio-hang`, `/thanh-toan`… Hai đường dẫn dùng trong email của backend không được đổi: `/don-hang/:code?token=…`, `/dat-lai-mat-khau?token=…`.
-- Giá luôn lấy từ API (`/api/checkout/quote`); giỏ hàng chỉ lưu lựa chọn.
-- Thông tin cửa hàng chưa có hiển thị **[Cập nhật]**.
+- Vietnamese URLs without diacritics: `/san-pham/:slug`, `/gio-hang`, `/thanh-toan`… Two paths used in backend emails must not change: `/don-hang/:code?token=…` and `/dat-lai-mat-khau?token=…`.
+- Prices always come from the API (`/api/checkout/quote`); the cart only stores the customer's selections.
+- Store information that is not available yet is shown as **[Cập nhật]**.
